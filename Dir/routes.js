@@ -26,13 +26,13 @@ routes.post("/login", async (req, res) => {
     const user = await _userjs.userModel.findOne({ email }); 
 
     if (!user) {
-        return res.json({ message: "Usuario Não existe" })
+        return res.json({ message: "Usuario Não existe" }).status(404)
     }
 
     const passwordIsValid = await _bcrypt2.default.compare(password, user.password);
     
     if (!passwordIsValid) {
-        return res.json({ message: "Senha Invalida" })
+        return res.json({ message: "Senha Invalida" }).status(404)
     }
 
     return res.json({ token: _tokenjs.generate.call(void 0, user._id) });
